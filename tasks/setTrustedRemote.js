@@ -1,37 +1,38 @@
 const CHAIN_ID = require("../constants/chainIds.json")
 const { getDeploymentAddresses } = require("../utils/readStatic")
-const OFT_CONFIG = require("../constants/oftConfig.json")
 
 module.exports = async function (taskArgs, hre) {
-    let srcContractName = "ExampleOFT"
-    let dstContractName = srcContractName
-    if (taskArgs.targetNetwork === OFT_CONFIG.baseChain) {
-        // if its the base chain, we need to grab a different contract
-        // Note: its reversed though!
-        dstContractName = "ExampleBasedOFT"
-    }
-    if (hre.network.name === OFT_CONFIG.baseChain) {
-        srcContractName = "ExampleBasedOFT"
-    }
+    // get local contract name
+    let localContract = taskArgs.localContract;
 
-    const dstChainId = CHAIN_ID[taskArgs.targetNetwork]
-    // console.log(getDeploymentAddresses(taskArgs.targetNetwork))
-    const dstAddr = getDeploymentAddresses(taskArgs.targetNetwork)[dstContractName]
-    // get local contract instance
-    const contractInstance = await ethers.getContract(srcContractName)
-    console.log(`[source] contract address: ${contractInstance.address}`)
-    const isTrustedRemoteSet = await contractInstance.isTrustedRemote(dstChainId, dstAddr)
-    if (!isTrustedRemoteSet) {
-        // setTrustedRemote() on the local contract, so it can receive message from the source contract
+    // get remote contract name
+    let remoteContract = taskArgs.remoteContract;
+
+    // get deployed remote contract address
+    const remoteAddress = getDeploymentAddresses(taskArgs.targetNetwork)[remoteContract]
+
+    // get remote chain id
+    const remoteChainId = CHAIN_ID[taskArgs.targetNetwork]
+
+    // get local contract
+    const contractInstance = await ethers.getContract(localContract)
+    console.log(`[local] contract address: ${contractInstance.address}`)
+    console.log({remoteChainId})
+    console.log({remoteAddress})
+
+    // check if pathway is already set
+    const isTrustedRemoteSet = await contractInstance.isTrustedRemote(remoteChainId, remoteAddress);
+
+    if(!isTrustedRemoteSet) {
         try {
-            let tx = await (await contractInstance.setTrustedRemote(dstChainId, dstAddr)).wait()
-            console.log(`✅ [${hre.network.name}] setTrustedRemote(${dstChainId}, ${dstAddr})`)
+            let tx = await (await contractInstance.setTrustedRemote(remoteChainId, remoteAddress)).wait()
+            console.log(`✅ [${hre.network.name}] setTrustedRemote(${remoteChainId}, ${remoteAddress})`)
             console.log(` tx: ${tx.transactionHash}`)
         } catch (e) {
             if (e.error.message.includes("The chainId + address is already trusted")) {
                 console.log("*source already set*")
             } else {
-                console.log(`❌ [${hre.network.name}] setTrustedRemote(${dstChainId}, ${dstAddr})`)
+                console.log(`❌ [${hre.network.name}] setTrustedRemote(${remoteChainId}, ${remoteAddress})`)
             }
         }
     } else {

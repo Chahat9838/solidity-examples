@@ -9,6 +9,11 @@
     "fantom"
   ],
   "testnet": [
+    "goerli",
+    "fuji",
+    "portal-testnet"
+  ],
+  "other-testnet": [
     "rinkeby",
     "bsc-testnet",
     "fuji",

@@ -31,15 +31,14 @@ task(
     require("./ocSetTrustedRemote")
 ).addParam("targetNetwork", "the target network to let this instance receive messages from")
 
-//
 task(
     "setTrustedRemote",
     "setTrustedRemote(chainId, sourceAddr) to enable inbound/outbound messages with your other contracts",
     require("./setTrustedRemote")
 )
     .addParam("targetNetwork", "the target network to set as a trusted remote")
-    .addOptionalParam("srcContract", "")
-    .addOptionalParam("dstContract", "")
+    .addOptionalParam("localContract", "")
+    .addOptionalParam("remoteContract", "")
 
 //.addParam("contractName", "the contract name to call setTrustedRemote on")
 
@@ -155,10 +154,11 @@ task("batchSendONFT1155", "send a tokenid and quantity", require("./batchSendONF
     .addParam("quantities", "the quantity of NFT tokenId to send")
 
 // npx hardhat deployWireCheck --e testnet --contract OFT
-// npx hardhat deployWireCheck --e testnet --contract OFT --proxy-chain fuji --proxy-contract ProxyOFT
+// npx hardhat deployWireCheck --e testnet --trusted-remote-version 1 --contract ProxyOFT --proxy-chain portal-fantasy --proxy-contract WrappedOFT
 task("deployWireCheck", "", require("./deployWireCheck"))
     .addParam("e", "environment testnet/mainet")
     .addParam("contract", "")
+    .addParam("trustedRemoteVersion", "name of contract")
     .addOptionalParam("proxyChain", "")
     .addOptionalParam("proxyContract", "")
 
@@ -175,3 +175,12 @@ task("stargateSwap", "", require("./stargateSwap"))
     .addParam("targetNetwork", "")
     .addParam("srcPoolId", "")
     .addParam("dstPoolId", "")
+
+
+task(
+    "setTrustedRemoteAddress",
+    "setTrustedRemoteAddress(chainId, sourceAddr) to enable inbound/outbound messages with your other contracts",
+    require("./setTrustedRemoteAddress")
+).addParam("targetNetwork", "the target network to set as a trusted remote")
+    .addOptionalParam("localContract", "")
+    .addOptionalParam("remoteContract", "")

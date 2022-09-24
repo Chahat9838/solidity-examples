@@ -45,9 +45,17 @@ module.exports = async function (taskArgs) {
                     srcContract = taskArgs.contract
                     dstContract = taskArgs.contract
                 }
-                const wireUpCommand = `npx hardhat --network ${source} setTrustedRemote --target-network ${destination} --src-contract ${srcContract} --dst-contract ${dstContract}`
-                console.log("wireUpCommand: " + wireUpCommand)
-                shell.exec(wireUpCommand)
+                let wireUpCommand;
+                if(taskArgs.trustedRemoteVersion === "1" && (srcContract === "WrappedOFT" || dstContract === "WrappedOFT")) {
+                // if(taskArgs.trustedRemoteVersion === "1") {
+                    wireUpCommand = `npx hardhat --network ${source} setTrustedRemote --target-network ${destination} --local-contract ${srcContract} --remote-contract ${dstContract}`;
+                    console.log("wireUpCommand: " + wireUpCommand)
+                    shell.exec(wireUpCommand)
+                } else if(taskArgs.trustedRemoteVersion === "2") {
+                    wireUpCommand = `npx hardhat --network ${source} setTrustedRemoteAddress --target-network ${destination} --local-contract ${srcContract} --remote-contract ${dstContract}`;
+                    console.log("wireUpCommand: " + wireUpCommand)
+                    shell.exec(wireUpCommand)
+                }
             }
         })
     })

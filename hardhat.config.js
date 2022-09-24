@@ -125,7 +125,11 @@ module.exports = {
       chainId: 250,
       accounts: accounts(),
     },
-
+    goerli: {
+      url: "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", // public infura endpoint
+      chainId: 5,
+      accounts: accounts(),
+    },
     rinkeby: {
       url: "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", // public infura endpoint
       chainId: 4,
@@ -159,6 +163,11 @@ module.exports = {
     'fantom-testnet': {
       url: `https://rpc.testnet.fantom.network/`,
       chainId: 4002,
+      accounts: accounts(),
+    },
+    'portal-testnet': {
+      url: `https://subnets.avax.network/portal-fantasy/testnet/rpc`,
+      chainId: 808,
       accounts: accounts(),
     }
   },

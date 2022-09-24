@@ -13,6 +13,10 @@ contract WrappedOFT is OFTCore, ERC20, IOFT {
 
     constructor(string memory _name, string memory _symbol, address _lzEndpoint) ERC20(_name, _symbol) OFTCore(_lzEndpoint) {}
 
+    function decimals() public view override returns (uint8) {
+        return 6;
+    }
+
     function supportsInterface(bytes4 interfaceId) public view virtual override(OFTCore, IERC165) returns (bool) {
         return interfaceId == type(IOFT).interfaceId || interfaceId == type(IERC20).interfaceId || super.supportsInterface(interfaceId);
     }

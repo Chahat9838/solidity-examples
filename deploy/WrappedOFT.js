@@ -8,17 +8,12 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
     const lzEndpointAddress = LZ_ENDPOINTS[hre.network.name]
     console.log(`[${hre.network.name}] Endpoint Address: ${lzEndpointAddress}`)
 
-    let usdcAddresses = {
-        "goerli": "0x4f481b910B097797632A96C669C81F5e5A7b49Ed",
-        "fuji": "0xA5902870E3D5E086f706cCB770F1404b71658db6",
-    }
-
-    await deploy("ProxyOFT", {
+    await deploy("WrappedOFT", {
         from: deployer,
-        args: [lzEndpointAddress, usdcAddresses[hre.network.name]],
+        args: ["USDC.pft", "USDC.pft", lzEndpointAddress],
         log: true,
         waitConfirmations: 1,
     })
 }
 
-module.exports.tags = ["ProxyOFT"]
+module.exports.tags = ["WrappedOFT"]
