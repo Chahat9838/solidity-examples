@@ -109,7 +109,7 @@ describe("OFT: ", function () {
             expect(await OFTDst.balanceOf(owner.address)).to.be.equal(0)
 
             const payload = ethers.utils.defaultAbiCoder.encode(["uint16", "bytes", "bytes", "uint256"], [0, owner.address, owner.address, sendQty])
-            await expect(lzEndpointDstMock.retryPayload(chainIdSrc, ethers.utils.solidityPack(["address", "address"], [OFTSrc.address, OFTDst.address]), payload)).to.emit(lzEndpointDstMock, "PayloadCleared")
+            await expect(lzEndpointDstMock.retryPayload(chainIdSrc, srcPath, payload)).to.emit(lzEndpointDstMock, "PayloadCleared")
 
             // balance after transfer is sendQty
             expect(await OFTDst.balanceOf(owner.address)).to.be.equal(sendQty)

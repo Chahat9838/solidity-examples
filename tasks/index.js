@@ -31,15 +31,6 @@ task(
     require("./ocSetTrustedRemote")
 ).addParam("targetNetwork", "the target network to let this instance receive messages from")
 
-task(
-    "setTrustedRemote",
-    "setTrustedRemote(chainId, sourceAddr) to enable inbound/outbound messages with your other contracts",
-    require("./setTrustedRemote")
-)
-    .addParam("targetNetwork", "the target network to set as a trusted remote")
-    .addOptionalParam("localContract", "")
-    .addOptionalParam("remoteContract", "")
-
 //.addParam("contractName", "the contract name to call setTrustedRemote on")
 
 //
@@ -64,19 +55,6 @@ task("onftMint", "mint() mint ONFT", require("./onftMint"))
 task("onftSend", "send an ONFT nftId from one chain to another", require("./onftSend"))
     .addParam("targetNetwork", "the chainId to transfer to")
     .addParam("tokenId", "the tokenId of ONFT")
-
-// npx hardhat checkWireUp --e testnet --contract OmniCounter
-task("checkWireUp", "check wire up", require("./checkWireUp"))
-    .addParam("e", "environment testnet/mainet")
-    .addParam("contract", "the contract to delete and redeploy")
-
-// npx hardhat checkWireUpAll --e testnet --contract OmniCounter
-// npx hardhat checkWireUpAll --e mainnet --contract OFT --proxy-contract ProxyOFT --proxy-chain ethereum
-task("checkWireUpAll", "check wire up all", require("./checkWireUpAll"))
-    .addParam("e", "environment testnet/mainet")
-    .addParam("contract", "name of contract")
-    .addOptionalParam("proxyContract", "name of proxy contract")
-    .addOptionalParam("proxyChain", "name of proxy chain")
 
 //
 task("ocPoll", "poll the counter of the OmniCounter", require("./ocPoll"))
@@ -153,15 +131,6 @@ task("batchSendONFT1155", "send a tokenid and quantity", require("./batchSendONF
     .addParam("tokenIds", "the NFT tokenId")
     .addParam("quantities", "the quantity of NFT tokenId to send")
 
-// npx hardhat deployWireCheck --e testnet --contract OFT
-// npx hardhat deployWireCheck --e testnet --trusted-remote-version 1 --contract ProxyOFT --proxy-chain portal-fantasy --proxy-contract WrappedOFT
-task("deployWireCheck", "", require("./deployWireCheck"))
-    .addParam("e", "environment testnet/mainet")
-    .addParam("contract", "")
-    .addParam("trustedRemoteVersion", "name of contract")
-    .addOptionalParam("proxyChain", "")
-    .addOptionalParam("proxyContract", "")
-
 task("WireProxyOft", "wire some proxy oft", require("./WireProxyOft"))
 
 // uint qty,
@@ -177,6 +146,29 @@ task("stargateSwap", "", require("./stargateSwap"))
     .addParam("dstPoolId", "")
 
 
+// npx hardhat checkWireUp --e testnet --contract OmniCounter
+task("checkWireUp", "check wire up", require("./checkWireUp"))
+    .addParam("e", "environment testnet/mainet")
+    .addParam("contract", "the contract to delete and redeploy")
+
+// npx hardhat checkWireUpAll --e testnet --contract OmniCounter
+// npx hardhat checkWireUpAll --e testnet --trusted-remote-version 1 --contract ONFT1155 --proxy-contract ONFT1155Mint --proxy-chain optimism-kovan
+task("checkWireUpAll", "check wire up all", require("./checkWireUpAll"))
+    .addParam("e", "environment testnet/mainet")
+    .addParam("contract", "name of contract")
+    .addOptionalParam("proxyContract", "name of proxy contract")
+    .addOptionalParam("proxyChain", "name of proxy chain")
+
+//
+task(
+    "setTrustedRemote",
+    "setTrustedRemote(chainId, sourceAddr) to enable inbound/outbound messages with your other contracts",
+    require("./setTrustedRemote")
+).addParam("targetNetwork", "the target network to set as a trusted remote")
+    .addOptionalParam("localContract", "")
+    .addOptionalParam("remoteContract", "")
+
+//
 task(
     "setTrustedRemoteAddress",
     "setTrustedRemoteAddress(chainId, sourceAddr) to enable inbound/outbound messages with your other contracts",
@@ -184,3 +176,16 @@ task(
 ).addParam("targetNetwork", "the target network to set as a trusted remote")
     .addOptionalParam("localContract", "")
     .addOptionalParam("remoteContract", "")
+
+// npx hardhat deployWireCheck --e testnet --contract ExampleUniversalONFT721
+// npx hardhat deployWireCheck --e testnet --contract OFT --proxy-chain fuji --proxy-contract ProxyOFT
+// npx hardhat deployWireCheck --e testnet --contract ReceiveONFT721 --proxy-chain fuji --proxy-contract DistributeONFT721
+// npx hardhat deployWireCheck --e testnet --trusted-remote-version 1 --contract ExampleOFT --proxy-contract ExampleBasedOFT --proxy-chain optimism-kovan
+// npx hardhat deployWireCheck --e testnet --trusted-remote-version 1 --contract ExampleUniversalONFT721
+
+task("deployWireCheck", "", require("./deployWireCheck"))
+    .addParam("e", "environment testnet/mainet")
+    .addParam("contract", "")
+    .addParam("trustedRemoteVersion", "name of contract")
+    .addOptionalParam("proxyChain", "")
+    .addOptionalParam("proxyContract", "")
