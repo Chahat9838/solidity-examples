@@ -2,9 +2,12 @@
 
 pragma solidity ^0.8.4;
 
-import "./IONFT721A.sol";
 import "./ONFT721ACore.sol";
-import "erc721a/contracts/ERC721A.sol";
+import "./IONFT721A.sol";
+
+// DISCLAIMER: This contract can only be deployed on one chain when deployed and calling
+// setTrustedRemotes with remote contracts. This is due to the sequential way 721A mints tokenIds.
+// This contract must be the first minter of each token id!
 
 // NOTE: this ONFT contract has no public minting logic.
 // must implement your own minting logic in child classes

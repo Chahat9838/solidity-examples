@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.4;
+pragma solidity ^0.8.0;
 
-import "./IONFT721ACore.sol";
-import "erc721a/contracts/ERC721A.sol";
-import "../../lzApp/NonblockingLzApp.sol";
+import "./IONFT721Core.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
+import "../../../lzApp/NonblockingLzApp.sol";
 
-abstract contract ONFT721ACore is NonblockingLzApp, IONFT721ACore {
+abstract contract ONFT721Core is NonblockingLzApp, ERC165, IONFT721Core {
     uint public constant NO_EXTRA_GAS = 0;
     uint public constant FUNCTION_TYPE_SEND = 1;
     bool public useCustomAdapterParams;
@@ -14,6 +14,10 @@ abstract contract ONFT721ACore is NonblockingLzApp, IONFT721ACore {
     event SetUseCustomAdapterParams(bool _useCustomAdapterParams);
 
     constructor(address _lzEndpoint) NonblockingLzApp(_lzEndpoint) {}
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
+        return interfaceId == type(IONFT721Core).interfaceId || super.supportsInterface(interfaceId);
+    }
 
     function estimateSendFee(uint16 _dstChainId, bytes memory _toAddress, uint _tokenId, bool _useZro, bytes memory _adapterParams) public view virtual override returns (uint nativeFee, uint zroFee) {
         // mock the payload for send()

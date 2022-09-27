@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.0;
 
-import "../token/onft/ONFT721.sol";
+import "../token/onft/onft721/ONFT721.sol";
 
 contract ONFT721Mock is ONFT721 {
     constructor(string memory _name, string memory _symbol, address _layerZeroEndpoint) ONFT721(_name, _symbol, _layerZeroEndpoint) {}

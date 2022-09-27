@@ -2,7 +2,7 @@
 
 pragma solidity 0.8.4;
 
-import "./ONFT721.sol";
+import "./onft721/ONFT721.sol";
 
 // NOTE: this ONFT contract has no public minting logic.
 // must implement your own minting logic in child classes
