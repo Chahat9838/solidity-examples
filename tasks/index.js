@@ -189,3 +189,8 @@ task("deployWireCheck", "", require("./deployWireCheck"))
     .addParam("trustedRemoteVersion", "name of contract")
     .addOptionalParam("proxyChain", "")
     .addOptionalParam("proxyContract", "")
+
+// npx hardhat checkWireUp --e testnet --contract OmniCounter
+task("transferOwnership", "check wire up", require("./transferOwnership"))
+    .addParam("contract", "the contract to delete and redeploy")
+    .addParam("address", "the contract to delete and redeploy")

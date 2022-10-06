@@ -9,8 +9,8 @@ module.exports = async function ({ deployments, getNamedAccounts }) {
     console.log(`[${hre.network.name}] Endpoint Address: ${lzEndpointAddress}`)
 
     let usdcAddresses = {
-        "goerli": "0x4f481b910B097797632A96C669C81F5e5A7b49Ed",
-        "fuji": "0xA5902870E3D5E086f706cCB770F1404b71658db6",
+        "goerli": "0x9C2c8363C7fd93D82B7309D7f711b0D7B652ce3D",
+        "fuji": "0xAe564e9A99788fC65224c91D5A9Ea9F8d556c2D5",
     }
 
     await deploy("ProxyOFT", {
