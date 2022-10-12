@@ -10,15 +10,15 @@ contract DistributeCore is NonblockingLzApp, ERC721 {
     uint public constant NO_EXTRA_GAS = 0;
     uint8 public constant FUNCTION_TYPE_SEND = 1;
     uint8 public constant FUNCTION_TYPE_DISTRIBUTE = 2;
+    uint8 public constant NUM_TOKENS_PER = 250;
 
     uint[] public tokenIds = new uint[](40);
 
     event SetUseCustomAdapterParams(bool _useCustomAdapterParams);
     event SendToChain(uint16 indexed _dstChainId, address indexed _from, bytes indexed _toAddress, uint[] _tokenIdArray);
     event ReceiveFromChain(uint16 indexed _srcChainId, bytes indexed _srcAddress, address indexed _toAddress, uint[] _tokenIdArray);
-//    TODO: need to add distribute events
-//    event ReceiveDistribute(uint16 indexed _srcChainId, bytes indexed _srcAddress, uint startTokenId, uint endTokenId);
-//    event ReceiveRedistribute(uint16 indexed _srcChainId, bytes indexed _srcAddress, uint[] _tokenIdArray);
+    event Distribute(uint16 indexed _srcChainId, TokenDistribute[] tokenDistribute);
+    event ReceiveDistribute(uint16 indexed _srcChainId, bytes indexed _srcAddress, TokenDistribute[] tokenDistribute);
 
     struct TokenDistribute {
         uint index;
@@ -53,6 +53,7 @@ contract DistributeCore is NonblockingLzApp, ERC721 {
     }
 
     function _estimatePayloadFee(uint16 _dstChainId, bytes memory _payload, uint _amount, bool _useZro) internal view returns (uint nativeFee, uint zroFee) {
+        require(_amount > 0, "Amount must be greater than 0");
         uint16 version = 1;
         uint destinationGas = 200000 + ((_amount - 1) * 50000);
         bytes memory _adapterParams = abi.encodePacked(version, destinationGas);
@@ -74,6 +75,7 @@ contract DistributeCore is NonblockingLzApp, ERC721 {
     }
 
     function _getMultiAdaptParams(uint _amount) internal pure returns (bytes memory) {
+        require(_amount > 0, "Amount must be greater than 0");
         uint16 version = 1;
         uint destinationGas = 200000 + ((_amount - 1) * 50000);
         return abi.encodePacked(version, destinationGas);
@@ -148,7 +150,7 @@ contract DistributeCore is NonblockingLzApp, ERC721 {
             uint position = BitLib.mostSignificantBitPosition(currentTokenId);
             uint temp = 1 << position;
             tokenIds[i] = tokenIds[i] ^ temp;
-            tokenId = (255 - position) + (i * 250) + 1;
+            tokenId = (255 - position) + (i * NUM_TOKENS_PER) + 1;
             break;
         }
         return tokenId;
@@ -179,6 +181,7 @@ contract DistributeCore is NonblockingLzApp, ERC721 {
                 uint temp = tokenIds[tokenDistribute[i].index];
                 tokenIds[tokenDistribute[i].index] = temp | tokenDistribute[i].value;
             }
+            emit ReceiveDistribute(_srcChainId, _srcAddress, tokenDistribute);
         }
     }
 }

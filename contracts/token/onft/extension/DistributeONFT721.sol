@@ -20,6 +20,7 @@ contract DistributeONFT721 is DistributeCore {
         bytes memory payload = abi.encode(FUNCTION_TYPE_DISTRIBUTE, _tokenDistribute);
         bytes memory _adapterParams = _getMultiAdaptParams(_tokenDistribute.length);
         _lzSend(_dstChainId, payload, _refundAddress, _zroPaymentAddress, _adapterParams, msg.value);
+        emit Distribute(_dstChainId, _tokenDistribute);
     }
 
     function _verifyAmounts(TokenDistribute[] memory _tokenDistribute) internal view returns (bool) {
