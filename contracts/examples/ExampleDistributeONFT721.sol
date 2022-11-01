@@ -13,7 +13,7 @@ contract ExampleDistributeONFT721 is DistributeONFT721 {
 
     function mint() public {
         require(countAllSetBits() >= 1, "Not enough tokens to Mint");
-        uint tokenId = getNextMintTokenId();
+        uint tokenId = _getNextMintTokenId();
         _safeMint(msg.sender, tokenId);
     }
 }
