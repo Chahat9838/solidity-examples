@@ -3339,6 +3339,11 @@ env-paths@^2.2.0:
   resolved "https://registry.npmjs.org/env-paths/-/env-paths-2.2.1.tgz"
   integrity sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==
 
+erc721a@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/erc721a/-/erc721a-4.2.3.tgz#ca6469b0e54afb0f614272c2147dc4cb49ff223f"
+  integrity sha512-0deF0hOOK1XI1Vxv3NKDh2E9sgzRlENuOoexjXRJIRfYCsLlqi9ejl2RF6Wcd9HfH0ldqC03wleQ2WDjxoOUvA==
+
 errno@~0.1.1:
   version "0.1.8"
   resolved "https://registry.npmjs.org/errno/-/errno-0.1.8.tgz"
@@ -3698,6 +3703,14 @@ eth-sig-util@3.0.0:
     tweetnacl "^1.0.0"
     tweetnacl-util "^0.15.0"
 
+eth-sig-util@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.npmjs.org/eth-sig-util/-/eth-sig-util-1.4.2.tgz#8d958202c7edbaae839707fba6f09ff327606210"
+  integrity sha512-iNZ576iTOGcfllftB73cPB5AN+XUQAT/T8xzsILsghXC1o8gJUqe3RHlcDqagu+biFpYQ61KQrZZJza8eRSYqw==
+  dependencies:
+    ethereumjs-abi "git+https://github.com/ethereumjs/ethereumjs-abi.git"
+    ethereumjs-util "^5.1.1"
+
 eth-tx-summary@^3.1.2:
   version "3.2.4"
   resolved "https://registry.npmjs.org/eth-tx-summary/-/eth-tx-summary-3.2.4.tgz"
@@ -3795,6 +3808,13 @@ ethereumjs-abi@0.6.8, ethereumjs-abi@^0.6.8:
   version "0.6.8"
   resolved "https://registry.npmjs.org/ethereumjs-abi/-/ethereumjs-abi-0.6.8.tgz"
   integrity sha512-Tx0r/iXI6r+lRsdvkFDlut0N08jWMnKRZ6Gkq+Nmw75lZe4e6o3EkSnkaBP5NF6+m5PTGAr9JP43N3LyeoglsA==
+  dependencies:
+    bn.js "^4.11.8"
+    ethereumjs-util "^6.0.0"
+
+"ethereumjs-abi@git+https://github.com/ethereumjs/ethereumjs-abi.git":
+  version "0.6.8"
+  resolved "git+https://github.com/ethereumjs/ethereumjs-abi.git#ee3994657fa7a427238e6ba92a84d0b529bbcde0"
   dependencies:
     bn.js "^4.11.8"
     ethereumjs-util "^6.0.0"
