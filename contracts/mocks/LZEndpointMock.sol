@@ -3,10 +3,19 @@
 pragma solidity ^0.8.0;
 pragma abicoder v2;
 
-import "../interfaces/ILayerZeroReceiver.sol";
-import "../interfaces/ILayerZeroEndpoint.sol";
-import "../libraries/LzLib.sol";
-
+// an endpoint is the contract which has the send() function
+ILayerZeroEndpoint public endpoint;
+// remote address concated with local address packed into 40 bytes
+bytes memory remoteAndLocalAddresses = abi.encodePacked(remoteAddress, localAddress);
+// call send() to send a message/payload to another chain
+endpoint.send{value:msg.value}(
+    10001,                   // destination LayerZero chainId
+    remoteAndLocalAddresses, // send to this address on the destination          
+    bytes("hello"),          // bytes payload
+    msg.sender,              // refund address
+    address(0x0),            // future parameter
+    bytes("")                // adapterParams (see "Advanced Features")
+ );
 /*
 like a real LayerZero endpoint but can be mocked, which handle message transmission, verification, and receipt.
 - blocking: LayerZero provides ordered delivery of messages from a given sender to a destination chain.
